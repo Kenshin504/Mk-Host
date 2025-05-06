@@ -1,67 +1,33 @@
-/* Import fonts */
 @import url("https://fonts.googleapis.com/css?family=Inter&display=swap");
 @import url("https://fonts.cdnfonts.com/css/telegraf");
 
-/* CSS Variables for consistent theming */
-:root {
-  --primary-color: #4cb7a5;
-  --primary-dark: #368275;
-  --primary-light: #ccffee;
-  --secondary-color: #b6c9dd;
-  --text-light: white;
-  --text-dark: black;
-  --bg-light: #faf9f9;
-  --bg-content: white;
-  --bg-input: #e5e4e2;
-  --border-color: #DFE0E2;
-  
-  /* Layout sizes */
-  --sidebar-width: 240px;
-  --topbar-height: 80px;
-  --border-radius-sm: 5px;
-  --border-radius-md: 8px;
-  --border-radius-lg: 15px;
-  
-  /* Typography */
-  --font-family-primary: "Inter", sans-serif;
-  --font-family-heading: "Telegraf", sans-serif;
-}
-
-/* Base styles */
-body {
-  font-family: var(--font-family-primary);
-  margin: 0;
-  padding: 0;
-}
-
-/* Utility classes */
-.hidden {
-  display: none;
-}
-
-/* ========== Top Navigation Bar ========== */
+/*Top Bar Section */
 .nav-top {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: var(--primary-color);
-  height: var(--topbar-height);
-  color: var(--text-light);
+  background-color: #4cb7a5;
+  height: 80px;
+  color: white;
   display: flex;
   align-items: center;
-  padding: 0 15px;
-  z-index: 900;
+  /*justify-content: space-between;*/
+  padding: 0px 15px;
+  z-index: 900; /* Ensure top bar is above content section */
   transition: margin-left 0.3s ease, width 0.3s ease;
   box-sizing: border-box;
 }
 
 .nav-top.shifted-top {
-  margin-left: var(--sidebar-width);
-  width: calc(100% - var(--sidebar-width));
+  /* This applies when the sidebar is NOT collapsed (expanded) */
+  margin-left: 240px; /* Should match the sidebar width */
+  width: calc(100% - 240px); /* Should match the content section width */
+  max-width: unset; /* Allow width to be calculated */
 }
 
 .nav-top.expanded-top {
+  /* This applies when the sidebar IS collapsed */
   margin-left: 0;
   width: 100%;
 }
@@ -69,33 +35,43 @@ body {
 .top-content {
   display: flex;
   align-items: center;
+  /*justify-content: space-between; This balances the content */
   flex-wrap: nowrap;
   width: 100%;
   gap: 15px;
+  /*margin-left: 0;
+  margin-right: 30px;
+  padding-right: 10px;*/
 }
 
+/* These might be redundant with nav-top shifted/expanded */
+/*
+.top-content.shifted-top {
+  left: 0px;
+  margin-right: 20px;
+}
+
+.top-content.expanded-top {
+  margin-left: 0;
+  width: 100%;
+  margin-right: 40px;
+}
+*/
+
 .inventory-name {
-  font-family: var(--font-family-heading);
+  font-family: "Telegraf", sans-serif;
   font-size: 30px;
   font-weight: bold;
-  margin: 0 0 0 15px;
-  white-space: nowrap;
+  margin: 0;
+  margin-left: 15px; /* Default margin */
+  white-space: nowrap; /* Prevent breaking in the middle of title */
   overflow: hidden;
   text-overflow: ellipsis;
+  /*max-width: 60%;*/
   flex-shrink: 1;
 }
 
-/* User section in top bar */
-.user_top-bar {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  margin-left: auto;
-  margin-right: 20px;
-  flex-shrink: 0;
-  justify-content: flex-end;
-}
-
+/*User Photo in Top Bar*/
 .user-logo {
   width: 47px;
   height: 47px;
@@ -104,47 +80,60 @@ body {
   border: solid 8px transparent;
 }
 
+/*User container in Top Bar*/
+.user_top-bar {
+  top: 0px;
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  margin-left: auto;
+  margin-right: 20px;
+  flex-shrink: 0;
+  /*min-width: 200px; prevents shifting too far left */
+  justify-content: flex-end;
+}
+
 .user-settings {
   background: none;
   border: none;
-  color: var(--text-light);
+  color: white;
   font-size: 18px;
   cursor: pointer;
 }
 
-.user-settings:focus {
-  outline: none;
-}
-
-/* User dropdown menu */
 .user-dropdown {
   position: relative;
   display: inline-block;
 }
 
+/*see logout*/
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: var(--bg-content);
+  background-color: #f9f9f9;
   font-size: 15px;
   min-width: 100px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 12px 5px;
+  padding: 12px 16px;
+  padding-left: 5px;
+  padding-right: 5px;
   z-index: 1;
-  right: 0;
+  right: 0; /* Position dropdown to the right */
 }
 
 .dropdown-content a {
   display: block;
   text-decoration: none;
-  color: var(--text-dark);
-  padding: 10px 20px 10px 17px;
-  border-radius: var(--border-radius-sm);
+  color: black;
+  padding: 10px;
+  padding-right: 20px;
+  padding-left: 17px;
+  border-radius: 5px;
 }
 
 .user-dropdown a:hover {
-  background-color: var(--primary-color);
-  color: var(--text-light);
+  background-color: #20b2aa;
+  color: white;
   font-weight: bold;
 }
 
@@ -152,17 +141,37 @@ body {
   display: block;
 }
 
-/* ========== Side Navigation Bar ========== */
+.user-settings:focus {
+  outline: none;
+}
+
+.side-bar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.side-bar::-webkit-scrollbar-track {
+  background-color: #ccffee; /* Scrollbar background */
+}
+
+.side-bar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* Scrollbar handle */
+}
+
+.side-bar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Side-Bar Section */
 .side-bar {
   position: fixed;
   top: 0;
   left: 0;
   height: 100vh;
-  width: var(--sidebar-width);
-  background-color: var(--primary-light);
+  width: 240px; /* Default width when expanded */
+  background-color: #ccffee;
   padding-top: 20px;
-  color: var(--text-dark);
-  z-index: 1000;
+  color: black;
+  z-index: 1000; /* Ensure sidebar is above top bar when visible */
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -173,30 +182,16 @@ body {
   overflow-x: hidden;
 }
 
-.side-bar::-webkit-scrollbar {
-  width: 8px;
-}
-
-.side-bar::-webkit-scrollbar-track {
-  background-color: var(--primary-light);
-}
-
-.side-bar::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.side-bar::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
+/* Styles for when the sidebar is collapsed */
 .side-bar.collapsed {
-  width: 0;
+  width: 0; /* Collapse the width */
   padding-top: 0;
   padding-bottom: 0;
-  border-right: none;
-  overflow-y: hidden;
+   border-right: none; /* Hide border if any */
+   overflow-y: hidden; /* Hide vertical scrollbar */
 }
 
+/* Ensure side-content is not displayed when collapsed */
 .side-bar.collapsed .side-content {
   display: none;
 }
@@ -205,7 +200,7 @@ body {
   padding-bottom: 40px;
 }
 
-/* Logo section in sidebar */
+/* Centering content inside the side-bar */
 .logo-section {
   display: flex;
   align-items: center;
@@ -215,6 +210,7 @@ body {
   padding-left: 10px;
 }
 
+/* Big logo in the side bar */
 .logo-part {
   background: url("../images/logo-dashboard_black.png");
   background-size: contain;
@@ -228,26 +224,29 @@ body {
 
 .logo-part:hover {
   transform: scale(1.1);
-  border: 7px solid rgba(0, 5, 6, 0.02);
-  background-color: rgba(0, 5, 6, 0.14);
+  border: 7px solid transparent; 
+  border-color: #00050604;
+  background-color: #00050624;
   border-radius: 25px;
   margin-bottom: -12.5px;
 }
 
+/* Small logo toggle in the top bar */
 .logo-part-small-toggle {
-  background: url("../images/logo-dashboard_black.png");
+  background: url("../images/logo-dashboard_black.png"); 
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  width: 80px;
-  height: 80px;
-  margin-left: 10px;
+  width: 80px;  
+  height: 80px; 
+  margin-left: 10px; 
+  border-radius: 0;
   cursor: pointer;
   transition: transform 0.15s;
   flex-shrink: 0;
   z-index: 1001;
   box-sizing: border-box;
-  border: 10px solid transparent;
+  border: 10px solid transparent; 
 }
 
 .logo-part-small-toggle:hover {
@@ -258,14 +257,14 @@ body {
 }
 
 .welcome-text {
-  font-family: var(--font-family-heading);
+  font-family: "Telegraf", sans-serif;
   font-size: 20px;
   text-align: center;
   margin-bottom: 40px;
   margin-top: 25px;
 }
 
-/* Navigation links */
+/* Navigation Links Section */
 .links {
   display: flex;
   flex-direction: column;
@@ -274,7 +273,7 @@ body {
 
 .links a {
   text-decoration: none;
-  color: var(--text-dark);
+  color: rgb(0, 0, 0);
   padding: 15px 0 15px 30px;
   font-size: 18px;
   transition: background-color 0.2s ease;
@@ -282,98 +281,256 @@ body {
   display: block;
   box-sizing: border-box;
   z-index: 1;
-  user-select: none;
-  pointer-events: auto;
-}
-
-.links a:hover,
-.links a.active {
-  background-color: var(--secondary-color);
-  width: 100%;
 }
 
 .link-content {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 10px; /* space between icon and text */
 }
 
+.links a:hover,
+.links a.active {
+  background-color: #b6c9dd;
+  width: 100%;
+}
+
+/* icon */
 .icon {
   width: 25px;
   height: 25px;
 }
 
 h3 {
-  user-select: none;
-  pointer-events: auto;
+  user-select: none; /* Prevents text selection */
+  pointer-events: auto; /* Ensures the link behaves normally */
 }
 
+a {
+  user-select: none; /* Prevents text selection */
+  pointer-events: auto; /* Ensures the link behaves normally */
+}
+
+/* Active link style */
 .active-link {
   width: 100%;
-  padding: 12px 0 12px 16px;
+  padding-left: 16px;
   display: block;
   font-weight: bold;
+  padding: 12px;
   background-color: rgba(0, 0, 0, 0.115);
   box-sizing: border-box;
 }
 
-/* ========== Content Section ========== */
-.content-section {
-  padding: 30px 40px;
-  background-color: var(--bg-light);
-  margin-top: var(--topbar-height);
-  margin-left: var(--sidebar-width);
-  min-height: calc(100vh - var(--topbar-height));
-  width: calc(100% - var(--sidebar-width));
-  max-width: 100%;
-  color: var(--text-dark);
-  display: flex;
-  flex-direction: column;
-  z-index: 2;
-  transition: margin-left 0.3s ease, width 0.3s ease;
-  box-sizing: border-box;
-}
-
-.content-header {
-  font-size: 28px;
-  font-family: var(--font-family-heading);
-}
-
-/* ========== Buttons ========== */
+/*general button to use in content section*/
 .edit-button {
-  background-color: var(--primary-color);
+  background-color: #4cb7a5;
   padding: 15px 20px;
   border: none;
-  border-radius: var(--border-radius-lg);
+  border-radius: 15px;
   margin: 7px;
-}
-
-.edit-button:hover {
-  background-color: var(--primary-dark);
-  color: var(--text-light);
 }
 
 .product-action-button {
   background-color: #212121;
   padding: 15px 20px;
   border: none;
-  border-radius: var(--border-radius-lg);
+  border-radius: 15px;
   margin: 7px;
   z-index: 1;
 }
 
+.edit-button:hover {
+  background-color: #368275;
+  color: white;
+}
+
 .product-action-button:hover {
   background-color: #20b2aa;
-  color: var(--text-dark);
+  color: black;
+}
+
+.stock-nav, .product-nav {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.stock-nav input[type="text"] {
+  padding: 10px;
+  border: solid;
+  border-radius: 7px;
+  border-width: 2px;
+  width: 300px;
+  margin-right: 20px;
+  margin-top: 15px;
+}
+
+.product-image {
+  height: 90px;
+  width: 110px;
+  object-fit: cover;
+}
+
+.product-category, .payment-status {
+  overflow: hidden;
+  background-color: #e5e4e2;
+  border: 1px #e5e4e2;
+  padding: 10px;
+  border-radius: 7px;
+  border-width: 2px;
+  width: 180px;
+  margin-right: 20px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.payment-status {
+  width: 130px;
+}
+
+.product-form {
+  padding: 10px;
+  padding-top: 0px;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-form input {
+  padding: 10px;
+  width: 200px;
+  margin-right: 13px;
+  margin-bottom: 10px;
+  background-color: #e5e4e2;
+  border: 1px #e5e4e2;
+  border-radius: 5px;
+}
+
+.popup-content button {
+  margin-right: 10px;
+}
+
+.table-container {
+  flex: 1;
+  overflow-y: auto;
+  max-height: fit-content;
+  padding-right: 1rem;
+  margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 50px;
+  background-color: #faf9f9;
+}
+
+table {
+  width: 100%;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+  border-collapse: collapse;
+  background: white;
+  background-color: white;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-spacing: 0;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+table thead {
+  background-color: #4cb7a5;
+  color: white;
+}
+
+thead th:first-child {
+  border-top-left-radius: 8px;
+  border-left: none;
+}
+
+thead th:last-child {
+  border-top-right-radius: 8px;
+  border-right: none;
+}
+
+table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+  border-left: none;
+}
+
+table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr td:last-child {
+  border-right: none;
+}
+
+table tbody tr:first-child td:first-child {
+  border-left: none;
+}
+
+tbody tr td:first-child {
+  border-left: none;
+}
+
+td,
+th {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 2px solid #DFE0E2;
+  border-left: 2px solid #DFE0E2;
+  width: 1%;
+  white-space: nowrap;
+}
+
+th {
+  border-bottom: 1px solid #4cb7a5;
+}
+
+td {
+  margin: 0;
+  padding: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.content-header {
+  font-size: 28px;
+  font-family: "Telegraf", sans-serif;
+}
+
+/*Content Section*/
+.content-section {
+  padding: 30px;
+  background-color: #faf9f9;
+  margin-top: 80px;
+  margin-left: 240px; /* Default margin when sidebar is expanded */
+  min-height: 80vh;
+  width: calc(100% - 240px); /* Default width when sidebar is expanded */
+  max-width: 100%;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  min-height: calc(100vh - 80px);
+  box-sizing: border-box;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .saveprofile-button {
   background-color: #222;
-  border-radius: var(--border-radius-sm);
+  border-radius: 7px;
   padding: 11px;
   width: 100px;
   margin-top: 10px;
-  color: var(--text-light);
+  color: white;
   text-align: center;
   font-weight: bold;
   border-style: none;
@@ -387,242 +544,35 @@ h3 {
 }
 
 .saveprofile-button:hover {
-  color: var(--text-light);
+  color: white;
   background: #009087;
-}
-
-/* ========== Table Styles ========== */
-.table-container {
-  flex: 1;
-  overflow-x: auto; /* Allow horizontal scrolling for wide tables */
-  overflow-y: auto;
-  margin: 20px 0 50px 0;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: var(--bg-light);
-  border-radius: var(--border-radius-md);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-table {
-  width: 100%;
-  border-collapse: separate; /* Use separate instead of collapse for better border radius control */
-  border-spacing: 0;
-  background: var(--bg-content);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  border-radius: var(--border-radius-md);
-  margin: 0; /* Remove unnecessary margins */
-  overflow: hidden; /* Ensure content doesn't overflow rounded corners */
-}
-
-/* Table header */
-thead {
-  background-color: var(--primary-color);
-  color: var(--text-light);
-  position: sticky; /* Stick header when scrolling */
-  top: 0;
-  z-index: 10;
-}
-
-thead tr {
-  height: 48px; /* Consistent header height */
-}
-
-th {
-  padding: 10px 15px;
-  text-align: center;
-  font-weight: 600;
-  border-bottom: 1px solid var(--primary-color);
-  white-space: nowrap;
-  position: relative;
-}
-
-/* Add subtle dividers between header cells */
-th:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 25%;
-  height: 50%;
-  width: 1px;
-  background-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Table body */
-tbody tr {
-  transition: background-color 0.2s ease;
-}
-
-tbody tr:hover {
-  background-color: rgba(76, 183, 165, 0.05); /* Subtle row hover effect */
-}
-
-tbody tr:last-child td {
-  border-bottom: none;
-}
-
-td {
-  padding: 12px 15px;
-  text-align: center;
-  border-bottom: 1px solid var(--border-color);
-  vertical-align: middle; /* Center content vertically */
-}
-
-table, th, td {
-  border: 1px solid rgb(214, 214, 214);
-  border-collapse: collapse;
-}
-
-/* Border radius for corners */
-thead tr:first-child th:first-child {
-  border-top-left-radius: var(--border-radius-md);
-}
-
-thead tr:first-child th:last-child {
-  border-top-right-radius: var(--border-radius-md);
-}
-
-tbody tr:last-child td:first-child {
-  border-bottom-left-radius: var(--border-radius-md);
-}
-
-tbody tr:last-child td:last-child {
-  border-bottom-right-radius: var(--border-radius-md);
-}
-
-/* Table cell sizing and content handling */
-.table-cell-wrap {
-  white-space: normal; /* Allow text to wrap */
-}
-
-.table-cell-nowrap {
-  white-space: nowrap; /* Prevent text from wrapping */
-}
-
-.table-cell-truncate {
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* Add zebra striping for better readability */
-tbody tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.02);
-}
-
-/* Responsive table styles */
-@media screen and (max-width: 768px) {
-  .table-container {
-    margin: 15px 0 30px 0;
-    border-radius: var(--border-radius-sm);
-  }
-  
-  table {
-    border-radius: var(--border-radius-sm);
-  }
-  
-  th, td {
-    padding: 10px 8px;
-    font-size: 0.9rem;
-  }
-}
-
-/* ========== Form Elements ========== */
-.stock-nav, .product-nav {
-  padding: 5px 0;
-}
-
-.stock-nav input[type="text"] {
-  padding: 10px;
-  border: 2px solid;
-  border-radius: var(--border-radius-sm);
-  width: 300px;
-  margin-right: 20px;
-  margin-top: 15px;
-}
-
-.product-category, .payment-status {
-  overflow: hidden;
-  background-color: var(--bg-input);
-  border: 1px solid var(--bg-input);
-  padding: 10px;
-  border-radius: var(--border-radius-sm);
-  margin: 15px 20px 10px 0;
-}
-
-.product-category {
-  width: 180px;
-}
-
-.payment-status {
-  width: 130px;
-}
-
-.product-form {
-  padding: 0 10px 10px;
-  justify-content: center;
-  align-items: center;
-}
-
-.product-form input {
-  padding: 10px;
-  width: 200px;
-  margin: 0 13px 10px 0;
-  background-color: var(--bg-input);
-  border: 1px solid var(--bg-input);
-  border-radius: var(--border-radius-sm);
-}
-
-.filter {
-  overflow: hidden;
-  background-color: var(--bg-content);
-  padding: 10px;
-  border: 2px solid;
-  border-radius: var(--border-radius-sm);
-  width: 200px;
-  margin: 15px 20px 10px 0;
 }
 
 .editprofile-input {
   margin-top: 5px;
   padding: 10px;
   width: 330px;
-  background-color: var(--bg-input);
-  border: 1px solid var(--bg-input);
-  border-radius: var(--border-radius-sm);
+  background-color: #e5e4e2;
+  border: 1px #e5e4e2;
+  border-radius: 5px;
 }
 
 .calendar {
   margin-top: 5px;
   padding: 10px;
   width: 150px;
-  background-color: var(--bg-content);
-  border: 2px solid rgb(130, 130, 130);
-  border-radius: var(--border-radius-sm);
-}
-
-/* ========== Account Page ========== */
-.account-container {
-  display: flex;
-  column-gap: 10px;
-  justify-content: flex-start;
-  margin-top: 40px;
-  gap: 120px;
-  flex-wrap: wrap;
-  height: 80vh;
-}
-
-.account-form {
-  margin: 30px 0 0 20px;
-  width: fit-content;
+  background-color: white;
+  border: 2px rgb(130, 130, 130);
+  border-style: solid;
+  border-radius: 5px;
 }
 
 .change-picture {
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin: 15px 0 0 0;
+  margin-top: 15px;
+  margin-left: 0px;
   padding-right: 40px;
 }
 
@@ -633,20 +583,43 @@ tbody tr:nth-child(even) {
   margin-bottom: 10px;
 }
 
-/* ========== Product Details ========== */
-.product-image {
-  height: 90px;
-  width: 110px;
-  object-fit: cover;
+.account-form {
+  margin-top: 30px;
+  margin-right: 0px;
+  margin-left: 20px;
+  width: fit-content;
 }
 
-/* ========== About Section ========== */
+.account-container {
+  display: flex;
+  column-gap: 10px;
+  justify-content: flex-start;
+  margin-top: 40px;
+  gap: 120px;
+  flex-wrap: wrap;
+  height: 80vh;
+}
+
+/*container for info in about section*/
 .about-content {
-  padding: 0 10px 10px;
+  padding: 10px;
+  padding-top: 0px;
   line-height: 2;
 }
 
-/* ========== Pagination ========== */
+.filter {
+  overflow: hidden;
+  background-color: white;
+  padding: 10px;
+  border: solid;
+  border-radius: 7px;
+  border-width: 2px;
+  width: 200px;
+  margin-right: 20px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
 .prev-next-button {
   display: flex;
   align-items: center;
@@ -663,20 +636,19 @@ tbody tr:nth-child(even) {
 
 .prev-next-button a:hover {
   background-color: #a8a8a8;
-  color: var(--text-dark);
+  color: black;
 }
 
 .previous {
   background-color: #dbdbdb;
-  color: var(--text-dark);
+  color: black;
 }
 
 .next {
-  background-color: var(--primary-dark);
-  color: var(--text-light);
+  background-color: #368275;
+  color: white;
 }
 
-/* ========== Popup Overlay ========== */
 .hidden-overlay {
   position: fixed;
   top: 0;
@@ -686,8 +658,8 @@ tbody tr:nth-child(even) {
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  display: none;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: none; /* Initially hidden */
   justify-content: center;
   align-items: center;
   z-index: 5;
@@ -696,26 +668,19 @@ tbody tr:nth-child(even) {
 
 .popup-content {
   position: absolute;
-  background: var(--bg-content);
-  padding: 20px 30px;
+  background: white;
+  padding: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
 
-.popup-content button {
-  margin-right: 10px;
-}
-
-/* ========== Responsive Styles ========== */
 @media screen and (max-width: 992px) {
-  /* Variables for mobile */
-  :root {
-    --sidebar-width: 0;
-  }
-  
-  /* Navigation adjustments */
+  /* Adjustments for smaller screens */
+
   .logo-part-small-toggle {
-    display: block;
+    display: block; /* Ensure small logo is visible on small screens when sidebar is collapsed */
   }
 
   .hidden-overlay {
@@ -723,9 +688,11 @@ tbody tr:nth-child(even) {
   }
 
   .content-section {
+    /* On small screens, content section always takes full width below top bar */
     margin-left: 0;
     width: 100%;
-    padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
   }
 
   .inventory-name {
@@ -733,8 +700,7 @@ tbody tr:nth-child(even) {
     overflow: hidden;
     text-overflow: ellipsis;
     margin-left: 10px;
-    max-width: calc(100% - 150px);
-    font-size: 24px; /* Slightly smaller font on mobile */
+    max-width: calc(100% - 150px); /* Adjust max-width considering small logo and user info */
   }
 
   .nav-top {
@@ -745,29 +711,6 @@ tbody tr:nth-child(even) {
     gap: 10px;
   }
 
-  /* Table responsiveness */
-  .table-container {
-    margin: 15px 0 30px 0;
-    box-shadow: none;
-  }
-  
-  table {
-    min-width: 650px; /* Ensure table has minimum width for scrolling */
-  }
-  
-  th, td {
-    padding: 8px 10px;
-    font-size: 0.9rem;
-  }
-  
-  /* Allow certain columns to be more compact on mobile */
-  .table-compact-mobile {
-    width: 50px !important;
-    min-width: 50px !important;
-    max-width: 50px !important;
-  }
-
-  /* Product form responsive layout */
   .product-form {
     display: flex;
     flex-direction: row;
@@ -775,6 +718,7 @@ tbody tr:nth-child(even) {
     justify-content: center;
     gap: 15px;
     padding: 10px;
+    padding-top: 10px;
     box-sizing: border-box;
   }
 
@@ -800,17 +744,22 @@ tbody tr:nth-child(even) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 10px 0 15px;
+    margin: 0;
     padding: 20px;
+    margin-top: 10px;
+    margin-bottom: 15px;
     border: 2px dashed gray;
+    border-radius: 0;
     text-align: center;
   }
 
-  .upload-box button {
-    margin: 15px 0 0;
-  }
+   .upload-box button {
+       margin-top: 15px;
+       margin-right: 0;
+       margin-left: 0;
+   }
 
-  .product-form > div:has(img[alt="Preview"]) {
+   .product-form > div:has(img[alt="Preview"]) {
     flex-basis: 100%;
     display: flex;
     justify-content: center;
@@ -822,9 +771,9 @@ tbody tr:nth-child(even) {
   .product-form > div:has(img[alt="Preview"]) img {
     width: 100px;
     height: 100px;
-    min-width: 100px;
-    min-height: 100px;
-    object-fit: cover;
+    min-width: 100px; /* Prevent shrinking below 100px */
+    min-height: 100px; /* Prevent shrinking below 100px */
+    object-fit: cover; /* Maintain aspect ratio */
     margin-bottom: 10px;
   }
 
@@ -838,19 +787,22 @@ tbody tr:nth-child(even) {
   }
 
   .product-form > div:last-child button {
-    margin: 0;
+    margin-right: 0;
+    margin-left: 0;
   }
 
-  .popup-content > div > button {
-    margin: 10px 10px 0 0;
-  }
+   .popup-content > div > button {
+        margin-right: 10px;
+        margin-left: 0;
+        margin-top: 10px;
+   }
 
-  .popup-content > div:last-child {
-    display: flex;
-    justify-content: center;
-    flex-basis: 100%;
-    margin-top: 10px;
-  }
+   .popup-content > div:last-child {
+       display: flex;
+       justify-content: center;
+       flex-basis: 100%;
+       margin-top: 10px;
+   }
 
   .product-form p {
     flex-basis: 100%;
@@ -860,10 +812,8 @@ tbody tr:nth-child(even) {
   }
 
   .popup-content {
-    margin: 0 15px;
-    padding: 15px 20px;
-    width: calc(100% - 30px);
-    max-width: 450px;
+    margin-left: 30px;
+    margin-right: 30px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -871,28 +821,16 @@ tbody tr:nth-child(even) {
     box-sizing: border-box;
   }
 
+  .product-form select {
+    margin-top: 0;
+  }
+
   .account-container {
     flex-direction: column;
-    gap: 40px;
-    position: relative;
-    padding: 0 15px;
-    right: auto;
-    left: auto;
-  }
-
-  .account-pic {
-    width: 200px;
-    height: 200px;
-  }
-
-  .account-form {
-    margin: 20px 0 0 0;
-    width: 100%;
-  }
-
-  .editprofile-input {
-    width: 100%;
-    max-width: 330px;
+    gap: 90px;
+    position: absolute;
+    right: 50px;
+    left: 20px;
   }
 
   .dashboard-container {
