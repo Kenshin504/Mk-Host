@@ -54,38 +54,37 @@ function Sales() {
 
   const handleAddSale = () => {
     const { barcode, quantity, customer, status } = formData;
-  
+
     if (!barcode || !quantity) {
       setError("Please fill in all required fields.");
       return;
     }
-  
+
     const productIndex = products.findIndex((p) => p.barcode === barcode);
     if (productIndex === -1) {
       setError(`No product found with barcode "${barcode}".`);
       return;
     }
-  
+
     const stockItem = stocks.find((s) => s.barcode === barcode);
     if (!stockItem) {
       setError(`No stock available for product with barcode "${barcode}".`);
       return;
     }
-  
+
     const currentProductQty = parseInt(products[productIndex].quantity || 0);
     const quantitySold = parseInt(quantity || 0);
-  
+
     if (quantitySold > currentProductQty) {
       setError("Insufficient stock to complete the sale.");
       return;
     }
-  
+
     const unitPrice = parseFloat(products[productIndex].price || 0);
     const total = unitPrice * quantitySold;
-  
+
     const newSale = {
       id: `SALE-${Date.now()}`,
-      invoiceNo: `INV-${Date.now()}`,
       date: formData.date,
       barcode,
       product: products[productIndex].name,
@@ -96,21 +95,16 @@ function Sales() {
       status,
       processed: true,
     };
-  
-    // Update sales
+
     const updatedSales = [...sales, newSale];
     setSales(updatedSales);
     localStorage.setItem("sales", JSON.stringify(updatedSales));
-  
-    // DO NOT modify stocks array here
-  
-    // Only update products quantity
+
     const updatedProducts = [...products];
     updatedProducts[productIndex].quantity = (currentProductQty - quantitySold).toString();
     setProducts(updatedProducts);
     localStorage.setItem("products", JSON.stringify(updatedProducts));
-  
-    // Reset form
+
     setFormData({
       date: new Date().toISOString().split("T")[0],
       barcode: "",
@@ -121,7 +115,6 @@ function Sales() {
     setError("");
     setIsFormVisible(false);
   };
-  
 
   const handleStatusChange = (index, newStatus) => {
     const updatedSales = [...sales];
@@ -214,7 +207,6 @@ function Sales() {
           <thead>
             <tr>
               <th onClick={() => handleSort("date")}>Date</th>
-              <th onClick={() => handleSort("invoiceNo")}>Invoice No.</th>
               <th onClick={() => handleSort("barcode")}>Barcode</th>
               <th onClick={() => handleSort("product")}>Product</th>
               <th onClick={() => handleSort("quantity")}>Quantity</th>
@@ -226,14 +218,13 @@ function Sales() {
           </thead>
           <tbody>
             {paginatedSales.length === 0 ? (
-              <tr><td colSpan="9">No sales recorded</td></tr>
+              <tr><td colSpan="8">No sales recorded</td></tr>
             ) : (
               paginatedSales.map((sale, index) => {
                 const globalIndex = (currentPage - 1) * SALES_PER_PAGE + index;
                 return (
                   <tr key={index}>
                     <td>{sale.date}</td>
-                    <td>{sale.invoiceNo}</td>
                     <td>{sale.barcode}</td>
                     <td>{sale.product}</td>
                     <td>{sale.quantity}</td>

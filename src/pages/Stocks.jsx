@@ -16,7 +16,6 @@ function Stocks() {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [newStock, setNewStock] = useState({
-    id: "",
     date: "",
     barcode: "",
     supplier: "",
@@ -105,7 +104,6 @@ function Stocks() {
   const handleAddStockClick = () => {
     setError("");
     setNewStock({
-      id: `STOCK-${Date.now()}`,
       date: new Date().toISOString().split("T")[0],
       barcode: "",
       supplier: "",
@@ -234,14 +232,12 @@ function Stocks() {
         </button>
       </div>
 
-      
       {isPopupVisible && (
         <div className="hidden-overlay" style={{ display: 'flex' }}>
           <div className="popup-content" style={{ marginLeft: "50px", marginRight: "50px" }}>
             <h3>Add New Stock</h3>
             <div className="product-form">
               {error && <p style={{ color: "red" }}>{error}</p>}
-              <input type="text" value={newStock.id} disabled />
               <input type="date" name="date" value={newStock.date} onChange={handleStockChange} />
               <input type="text" name="barcode" placeholder="Barcode" value={newStock.barcode} onChange={handleStockChange} />
               <input type="text" name="supplier" placeholder="Supplier" value={newStock.supplier} onChange={handleStockChange} />
@@ -262,9 +258,9 @@ function Stocks() {
         <table>
           <thead>
             <tr>
-              <th >Barcode</th>
+              <th>Barcode</th>
               <th>Total Quantity</th>
-              <th >Stock Status</th>
+              <th>Stock Status</th>
             </tr>
           </thead>
           <tbody>
@@ -302,7 +298,6 @@ function Stocks() {
               <thead>
                 <tr>
                   <th>Date Stocked<br />(Year-Month-Day)</th>
-                  <th>Stock ID</th>
                   <th>Supplier</th>
                   <th>Quantity (pcs)</th>
                   <th>Unit Cost</th>
@@ -311,12 +306,11 @@ function Stocks() {
               </thead>
               <tbody>
                 {paginatedStockHistory.length === 0 ? (
-                  <tr><td colSpan="6">No stock history available</td></tr>
+                  <tr><td colSpan="5">No stock history available</td></tr>
                 ) : (
                   paginatedStockHistory.map((stock, index) => (
                     <tr key={index}>
                       <td>{stock.date}</td>
-                      <td>{stock.id}</td>
                       <td>{stock.supplier}</td>
                       <td>{stock.quantity}</td>
                       <td>₱{stock.unitCost}</td>
